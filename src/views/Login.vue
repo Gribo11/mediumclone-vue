@@ -3,9 +3,9 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign up</h1>
+          <h1 class="text-xs-center">Sign in</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'login' }">
+            <router-link :to="{ name: 'register' }">
               Need an account?
             </router-link>
           </p>
@@ -14,14 +14,6 @@
          :validation-errors='validationErrors'
          />
           <form @submit.prevent="onSubmit">
-            <fieldset class="form-group">
-              <input
-                class="form-control form-control-lg"
-                type="text"
-                placeholder="Username"
-                v-model="username"
-              />
-            </fieldset>
             <fieldset class="form-group">
               <input
                 class="form-control form-control-lg"
@@ -67,12 +59,11 @@ export default {
     return {
       email:'',
       password:'',
-      username:''
     }
   },
   
   computed:{
-     ...mapState({
+      ...mapState({
         isSubmitting: state => state.auth.isSubmitting,
         validationErrors:state => state.auth.validatonErrors
       })
@@ -80,14 +71,11 @@ export default {
 
   methods:{
     onSubmit(){
-        console.log('submin');
-        this.$store.dispatch(actionType.register, {
+        this.$store.dispatch(actionType.login, {
           email:this.email,
           password:this.password,
-          username:this.username,
         })
-        .then(user =>{
-          console.log(user)
+        .then(() =>{
           this.$router.push({name: 'home'})
         })
     }
