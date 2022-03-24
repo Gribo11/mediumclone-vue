@@ -57,7 +57,10 @@ export default {
   methods:{
     onSubmit(){
         console.log('submin');
-        this.$store.dispatch('register')
+        this.$store.dispatch('register', {})
+        .then(user =>{
+          console.log(user)
+        })
     }
   }
 }
