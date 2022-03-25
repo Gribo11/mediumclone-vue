@@ -18,9 +18,29 @@ export const mutationTypes = {
     loginFailure:'[auth] loginFailure'
 }
 
-export const actionType = {
+export const actionTypes = {
     register:'[auth] register',
     login:'[auth] login'
+}
+
+export const gettersType = {
+    currentUser:'[auth] currentUser',
+    isLoggedIn: '[auth] isLoggedIn',
+    isAnonymous:'[auth] isAnonymous'
+}
+
+const getters = {
+    [gettersType.currentUser]: state => {
+        return state.currentUser
+    },
+    [gettersType.isLoggedIn]: state => {
+        return Boolean(state.isLoggedIn)
+    },
+    [gettersType.isAnonymous]: state => {
+        return state.isLoggedIn === false    
+    },
+
+
 }
 
 const mutations = {
@@ -58,7 +78,7 @@ const mutations = {
 }
 
 const actions = {
-    [actionType.register](context, credential){
+    [actionTypes.register](context, credential){
         return new Promise(resolve =>{
             context.commit(mutationTypes.registerStart)
 
@@ -75,7 +95,7 @@ const actions = {
         })
     },
 
-    [actionType.login](context, credential){
+    [actionTypes.login](context, credential){
         return new Promise(resolve =>{
             context.commit(mutationTypes.loginStart)
 
@@ -97,5 +117,6 @@ const actions = {
 export default{
     state,
     mutations,
-    actions
+    actions,
+    getters
 }
