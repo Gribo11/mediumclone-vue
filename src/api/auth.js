@@ -8,9 +8,14 @@ const login = credential =>{
     return axios.post('/users/login', {user:credential})
 }
 
+const gerCurrentUser = () =>{
+    return axios.get('/user')
+}
+
 export default{
     register,
-    login
+    login,
+    gerCurrentUser
 }
 
 

@@ -5,7 +5,8 @@ const state = {
     isSubmitting:false,
     currentUser:null,
     validatonErrors:null,
-    isLoggedIn:null
+    isLoggedIn:null,
+    isLoading:false
 }
 
 export const mutationTypes = {
@@ -15,12 +16,17 @@ export const mutationTypes = {
 
     loginStart:'[auth] loginStart',
     loginSuccess:'[auth] loginSuccess',
-    loginFailure:'[auth] loginFailure'
+    loginFailure:'[auth] loginFailure',
+
+    getCurrentStart:'[auth] getCurrentStart',
+    getCurrentSuccess:'[auth] getCurrentSuccess',
+    getCurrentFailure:'[auth] getCurrentFailure'
 }
 
 export const actionTypes = {
     register:'[auth] register',
-    login:'[auth] login'
+    login:'[auth] login',
+    getCurrentUser:'[auth] getCurrentUser'
 }
 
 export const gettersType = {
@@ -74,7 +80,24 @@ const mutations = {
     [mutationTypes.loginFailure](state, payload){
         state.isSubmitting = false
         state.validatonErrors = payload
-    }
+    },
+
+    [mutationTypes.getCurrentStart](state){
+        state.isLoading = true
+    },
+
+    [mutationTypes.getCurrentSuccess](state, payload){
+        state.isLoading = false,
+        state.currentUser = payload,
+        state.isLoggedIn = true
+    },
+
+    [mutationTypes.getCurrentFailure](state){
+        state.isLoading = false,
+        state.isLoggedIn = false,
+        state.currentUser = null
+    },
+
 }
 
 const actions = {
@@ -108,6 +131,21 @@ const actions = {
             .catch(result =>{
                 context.commit(mutationTypes.loginFailure, result.response.data.errors)
                 console.log(result);
+            })
+        })
+    },
+
+    [actionTypes.getCurrentUser](context){
+        return new Promise(resolve =>{
+            context.commit(mutationTypes.getCurrentStart)
+
+            authApi.gerCurrentUser()
+            .then(response =>{
+                 context.commit(mutationTypes.getCurrentSuccess, response.data.user)
+                 resolve(response.data.user)
+            })
+            .catch(() =>{
+                context.commit(mutationTypes.getCurrentFailure)
             })
         })
     }

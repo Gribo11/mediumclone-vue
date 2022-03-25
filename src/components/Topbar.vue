@@ -83,6 +83,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "McvTopbar",
+  
   computed: {
     ...mapGetters({
       currentUser: gettersType.currentUser,
