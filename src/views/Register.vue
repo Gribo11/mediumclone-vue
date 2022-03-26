@@ -88,7 +88,7 @@ export default {
         })
         .then(user =>{
           console.log(user)
-          this.$router.push({name: 'globalfeed'})
+          this.$router.push({name: 'globalFeed'})
         })
     }
   }
