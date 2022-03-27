@@ -11,7 +11,10 @@
       >
         <div class="article-meta">
           <router-link
-            :to="{name: 'userProfile', params: {slug: article.author.username}}"
+            :to="{
+              name: 'userProfile',
+              params: { slug: article.author.username },
+            }"
           >
             <img :src="article.author.image" />
           </router-link>
@@ -19,7 +22,7 @@
             <router-link
               :to="{
                 name: 'userProfile',
-                params: {slug: article.author.username}
+                params: { slug: article.author.username },
               }"
             >
               {{ article.author.username }}
@@ -29,7 +32,7 @@
           <div class="pull-xs-right">ADD TO FAVORITES</div>
         </div>
         <router-link
-          :to="{name: 'article', params: {slug: article.slug}}"
+          :to="{ name: 'article', params: { slug: article.slug } }"
           class="preview-link"
         >
           <h1>{{ article.title }}</h1>
@@ -38,7 +41,12 @@
           TAG LIST
         </router-link>
       </div>
-      PAGINATION
+      <mcv-pagination
+        :total="total"
+        :limit="limit"
+        :current-page="currentPage"
+        :url='url'
+      />
     </div>
   </div>
 </template>
@@ -46,6 +54,7 @@
 <script>
 import { actionTypes } from "@/store/modules/feed";
 import { mapState } from "vuex";
+import McvPagination from '@/components/Pagination'
 
 export default {
   name: "McvFeed",
@@ -54,6 +63,17 @@ export default {
       type: String,
       require: true,
     },
+  },
+  components:{
+    McvPagination
+  },
+  data() {
+    return {
+      total: 500,
+      limit: 10,
+      currentPage: 5,
+      url:'/tags/dragons'
+    };
   },
   computed: {
     ...mapState({
