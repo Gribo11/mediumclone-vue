@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="isLoading">Loading...</div>
-    <div v-if="error">Something bad happed</div>
+    <mcv-loading v-if="isLoading" />
+    <mcv-error-message v-if="error" />
 
     <div v-if="feed">
       <div
@@ -54,9 +54,12 @@
 <script>
 import { actionTypes } from "@/store/modules/feed";
 import { mapState } from "vuex";
-import McvPagination from "@/components/Pagination";
 import { limit } from "@/helpers/vars";
 import { stringify, parseUrl } from "query-string";
+
+import McvPagination from "@/components/Pagination";
+import McvLoading from "@/components/Loading.vue";
+import McvErrorMessage from '@/components/ErrorMessage'
 
 export default {
   name: "McvFeed",
@@ -68,6 +71,8 @@ export default {
   },
   components: {
     McvPagination,
+    McvLoading,
+    McvErrorMessage,
   },
   data() {
     return {
@@ -87,9 +92,9 @@ export default {
     baseUrl() {
       return this.$router.path;
     },
-    offset(){
-      return this.currentPage * limit - limit
-    }
+    offset() {
+      return this.currentPage * limit - limit;
+    },
   },
   watch: {
     currentPage() {
@@ -105,9 +110,9 @@ export default {
       const stringifyParams = stringify({
         limit,
         ofset: this.offset,
-        ...parsedUrl.query
+        ...parsedUrl.query,
       });
-      const apiUrlWithParams = `${parsedUrl.url}?${stringifyParams}`
+      const apiUrlWithParams = `${parsedUrl.url}?${stringifyParams}`;
       this.$store.dispatch(actionTypes.getFeed, { apiUrl: apiUrlWithParams });
     },
   },

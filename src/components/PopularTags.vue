@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="isLoading">Loading...</div>
-    <div v-if="error">Something is broken</div>
+    <mcv-loading v-if="isLoading" />
+    <mcv-error-message v-if="error" />
 
     <div class="sidebar" v-if="popularTags">
       <p>Popular Tags</p>
@@ -9,7 +9,7 @@
         <router-link
           v-for="popularTag in popularTags"
           :key="popularTag"
-          :to="{name: 'tag', params: {slug: popularTag}}"
+          :to="{ name: 'tag', params: { slug: popularTag } }"
           class="tag-default tag-pill"
         >
           {{ popularTag }}
@@ -20,21 +20,26 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
-import {actionTypes} from '@/store/modules/popularTags'
+import { mapState } from "vuex";
+import { actionTypes } from "@/store/modules/popularTags";
+import McvLoading from "@/components/Loading.vue";
+import McvErrorMessage from "@/components/ErrorMessage";
 
 export default {
-  name: 'McvPopularTags',
+  name: "McvPopularTags",
   computed: {
     ...mapState({
-      isLoading: state => state.popularTags.isLoading,
-      popularTags: state => state.popularTags.data,
-      error: state => state.popularTags.error
-    })
+      isLoading: (state) => state.popularTags.isLoading,
+      popularTags: (state) => state.popularTags.data,
+      error: (state) => state.popularTags.error,
+    }),
+  },
+  components: {
+    McvLoading,
+    McvErrorMessage,
   },
   mounted() {
-    this.$store.dispatch(actionTypes.getPopularTags)
-  }
-}
+    this.$store.dispatch(actionTypes.getPopularTags);
+  },
+};
 </script>
