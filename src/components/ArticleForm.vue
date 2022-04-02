@@ -5,6 +5,7 @@
         <div class="col-md-10 offset-md-1 col-xs-12">
           <mcv-validation-errors
             v-if="errors"
+            :validation-errors="errors"
           />
           <form @submit.prevent="onSubmit">
             <fieldset>
@@ -57,11 +58,11 @@
 </template>
 
 <script>
-import McvErrorMessage from "@/components/ErrorMessage.vue";
+import McvValidationErrors from '@/components/ValidationErrors'
 export default {
   name: "McvArticleForm",
-  comments: {
-    McvErrorMessage,
+  components: {
+    McvValidationErrors,
   },
   props: {
     initialValues: {
@@ -91,7 +92,7 @@ export default {
         title: this.title,
         description: this.description,
         body: this.body,
-        tagList: this.tagList,
+        tagList: this.tagList.split(" "),
       };
       this.$emit("articleSubmit", form);
     },
