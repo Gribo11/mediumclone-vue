@@ -3,23 +3,23 @@ import articleApi from '@/api/article'
 const state = {
   isSubmitting: false,
   validationErrors: null,
-  isLoading:false,
-  article:null
+  isLoading: false,
+  article: null
 }
 
 export const mutationTypes = {
-  updateArticleStart: '[updateArticle] Update article start',
-  updateArticleSuccess: '[updateArticle] Update article success',
-  updateArticleFailure: '[updateArticle] Update article failure',
+  updateArticleStart: '[editArticle] Update article start',
+  updateArticleSuccess: '[editArticle] Update article success',
+  updateArticleFailure: '[editArticle] Update article failure',
 
-  getArticleStart: '[getArticle] Get ticle start',
-  getArticleSuccess: '[getArticle] Get article success',
-  getArticleFailure: '[getArticle] Get article failure',
+  getArticleStart: '[editArticle] Get article start',
+  getArticleSuccess: '[editArticle] Get article success',
+  getArticleFailure: '[editArticle] Get article failure'
 }
 
 export const actionTypes = {
-  updateArticle: '[updateArticle] Create article',
-  getArticle: '[getArticle] Get article',
+  updateArticle: '[editArticle] Create article',
+  getArticle: '[editArticle] Get article'
 }
 
 const mutations = {
@@ -33,18 +33,16 @@ const mutations = {
     state.isSubmitting = false
     state.validationErrors = payload
   },
-
-
-  [mutationTypes.getArticleStart](state){
-    state.isLoading= true
+  [mutationTypes.getArticleStart](state) {
+    state.isLoading = true
   },
-  [mutationTypes.getArticleSuccess](state, payload){
-    state.isLoading= false
-    state.article = payload 
+  [mutationTypes.getArticleSuccess](state, payload) {
+    state.isLoading = false
+    state.article = payload
   },
-  [mutationTypes.getArticleFailure](state){
-    state.isLoading= false
-  },
+  [mutationTypes.getArticleFailure](state) {
+    state.isLoading = false
+  }
 }
 
 const actions = {
@@ -65,7 +63,6 @@ const actions = {
         })
     })
   },
-
   [actionTypes.getArticle](context, {slug}) {
     return new Promise(resolve => {
       context.commit(mutationTypes.getArticleStart)
@@ -76,8 +73,7 @@ const actions = {
           resolve(article)
         })
         .catch(() => {
-          context.commit(
-            mutationTypes.getArticleFailure)
+          context.commit(mutationTypes.getArticleFailure)
         })
     })
   }

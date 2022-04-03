@@ -5,14 +5,14 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign up</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'login' }">
+            <router-link :to="{name: 'login'}">
               Need an account?
             </router-link>
           </p>
-         <mcv-validation-errors
-         v-if="validationErrors"
-         :validation-errors='validationErrors'
-         />
+          <mcv-validation-errors
+            v-if="validationErrors"
+            :validation-errors="validationErrors"
+          ></mcv-validation-errors>
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
@@ -38,8 +38,9 @@
                 v-model="password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right"
-            :disabled='isSubmitting'
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              :disabled="isSubmitting"
             >
               Sign Up
             </button>
@@ -53,41 +54,35 @@
 <script>
 import {mapState} from 'vuex'
 
-import McvValidationErrors from '@/components/ValidationErrors'
-import {actionType} from '@/store/modules/auth'
-
+import McvValidationErrors from '@/components/ValidationErrors.vue'
+import {actionTypes} from '@/store/modules/auth'
 export default {
   name: 'McvRegister',
-
-  components:{
+  components: {
     McvValidationErrors
   },
-
-  data(){
+  data() {
     return {
-      email:'',
-      password:'',
-      username:''
+      email: '',
+      password: '',
+      username: ''
     }
   },
-  
-  computed:{
-     ...mapState({
-        isSubmitting: state => state.auth.isSubmitting,
-        validationErrors:state => state.auth.validatonErrors
-      })
+  computed: {
+    ...mapState({
+      isSubmitting: state => state.auth.isSubmitting,
+      validationErrors: state => state.auth.validationErrors
+    })
   },
-
-  methods:{
-    onSubmit(){
-        console.log('submin');
-        this.$store.dispatch(actionType.register, {
-          email:this.email,
-          password:this.password,
-          username:this.username,
+  methods: {
+    onSubmit() {
+      this.$store
+        .dispatch(actionTypes.register, {
+          email: this.email,
+          username: this.username,
+          password: this.password
         })
-        .then(user =>{
-          console.log(user)
+        .then(() => {
           this.$router.push({name: 'globalFeed'})
         })
     }

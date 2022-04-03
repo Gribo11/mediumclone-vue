@@ -9,7 +9,7 @@
         <router-link
           v-for="popularTag in popularTags"
           :key="popularTag"
-          :to="{ name: 'tag', params: { slug: popularTag } }"
+          :to="{name: 'tag', params: {slug: popularTag}}"
           class="tag-default tag-pill"
         >
           {{ popularTag }}
@@ -20,26 +20,27 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { actionTypes } from "@/store/modules/popularTags";
-import McvLoading from "@/components/Loading.vue";
-import McvErrorMessage from "@/components/ErrorMessage";
+import {mapState} from 'vuex'
+
+import {actionTypes} from '@/store/modules/popularTags'
+import McvLoading from '@/components/Loading'
+import McvErrorMessage from '@/components/ErrorMessage'
 
 export default {
-  name: "McvPopularTags",
-  computed: {
-    ...mapState({
-      isLoading: (state) => state.popularTags.isLoading,
-      popularTags: (state) => state.popularTags.data,
-      error: (state) => state.popularTags.error,
-    }),
-  },
+  name: 'McvPopularTags',
   components: {
     McvLoading,
-    McvErrorMessage,
+    McvErrorMessage
+  },
+  computed: {
+    ...mapState({
+      isLoading: state => state.popularTags.isLoading,
+      popularTags: state => state.popularTags.data,
+      error: state => state.popularTags.error
+    })
   },
   mounted() {
-    this.$store.dispatch(actionTypes.getPopularTags);
-  },
-};
+    this.$store.dispatch(actionTypes.getPopularTags)
+  }
+}
 </script>

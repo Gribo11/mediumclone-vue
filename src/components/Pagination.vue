@@ -14,35 +14,33 @@
 </template>
 
 <script>
-import {range} from '@/helpers/utils';
-
+import {range} from '@/helpers/utils'
 export default {
-  name: "McvPagination",
-
+  name: 'McvPagination',
   props: {
     total: {
       type: Number,
-      require: true,
+      required: true
     },
     limit: {
       type: Number,
-      require: true,
+      required: true
     },
     currentPage: {
       type: Number,
-      require: true,
+      required: true
     },
     url: {
       type: String,
-      require: true,
-    },
+      required: true
+    }
   },
   computed: {
-      pages(){
-          const pageCount = Math.ceil(this.total / this.limit)
-          return range(1, pageCount)
-
-      }
-  },
-};
+    pages() {
+      const pagesCount = Math.ceil(this.total / this.limit)
+      return range(1, pagesCount)
+    }
+  }
+}
 </script>
+

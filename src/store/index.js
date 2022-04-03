@@ -5,26 +5,23 @@ import auth from '@/store/modules/auth'
 import feed from '@/store/modules/feed'
 import popularTags from '@/store/modules/popularTags'
 import article from '@/store/modules/article'
-import createArticle from '@/store/modules/createArticle';
-import editArticle from '@/store/modules/editArticle';
+import createArticle from '@/store/modules/createArticle'
+import editArticle from '@/store/modules/editArticle'
+import settings from '@/store/modules/settings'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+  state: {},
+  mutations: {},
+  actions: {},
   modules: {
     auth,
     feed,
     popularTags,
     article,
     createArticle,
-    editArticle
+    editArticle,
+    settings
   }
 })

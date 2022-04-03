@@ -5,10 +5,7 @@
         <h1>{{ article.title }}</h1>
         <div class="article-meta">
           <router-link
-            :to="{
-              name: 'userProfile',
-              params: { slug: article.author.username },
-            }"
+            :to="{name: 'userProfile', params: {slug: article.author.username}}"
           >
             <img :src="article.author.image" />
           </router-link>
@@ -16,7 +13,7 @@
             <router-link
               :to="{
                 name: 'userProfile',
-                params: { slug: article.author.username },
+                params: {slug: article.author.username}
               }"
             >
               {{ article.author.username }}
@@ -26,7 +23,7 @@
           <span v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
-              :to="{ name: 'editArticle', params: { slug: article.slug } }"
+              :to="{name: 'editArticle', params: {slug: article.slug}}"
             >
               <i class="ion-edit" />
               Edit Article
@@ -44,13 +41,13 @@
     </div>
     <div class="container page">
       <mcv-loading v-if="isLoading" />
-      <mcv-error-message v-if="error" :message="error" />
+      <mcv-error-message v-if="isLoading" :message="error" />
       <div class="row article-content" v-if="article">
         <div class="col-xs-12">
           <div>
             <p>{{ article.body }}</p>
           </div>
-         <mcv-tag-list :tags="article.tagList" />
+          <mcv-tag-list :tags="article.tagList" />
         </div>
       </div>
     </div>
@@ -58,17 +55,16 @@
 </template>
 
 <script>
-import { actionTypes as articleActionType} from "@/store/modules/article";
-import { gettersType as authGetterType } from "@/store/modules/auth";
-import { mapGetters, mapState } from "vuex";
+import {mapState, mapGetters} from 'vuex'
 
-import McvLoading from "@/components/Loading.vue";
-import McvErrorMessage from "@/components/ErrorMessage";
+import {actionTypes as articleActionTypes} from '@/store/modules/article'
+import {getterTypes as authGetterTypes} from '@/store/modules/auth'
+import McvLoading from '@/components/Loading'
+import McvErrorMessage from '@/components/ErrorMessage'
 import McvTagList from '@/components/TagList'
 
-
 export default {
-  name: "McvArticle",
+  name: 'McvArticle',
   components: {
     McvLoading,
     McvErrorMessage,
@@ -76,37 +72,36 @@ export default {
   },
   computed: {
     ...mapState({
-      isLoading: (state) => state.article.isLoading,
-      article: (state) => state.article.data,
-      error: (state) => state.article.error,
+      isLoading: state => state.article.isLoading,
+      article: state => state.article.data,
+      error: state => state.article.error
     }),
     ...mapGetters({
-        currentUser: authGetterType.currentUser
+      currentUser: authGetterTypes.currentUser
     }),
+    isAuthor() {
+      if (!this.currentUser || !this.article) {
+        return false
+      }
 
-    isAuthor(){
-        if(!this.currentUser || !this.article){
-            return false
-        }
-        return this.currentUser.username === this.article.author.username
+      return this.currentUser.username === this.article.author.username
     }
   },
-
-  methods:{
-      deleteArticle(){
-          this.$store.dispatch(articleActionType.deleteArticle,{
-             slug: this.$route.params.slug, 
-          })
-          .then(()=>{
-              this.$route.push({name:'globalFeed'})
-          })
-      }
-  },
-
   mounted() {
-    this.$store.dispatch(articleActionType.getArticle, {
-      slug: this.$route.params.slug,
-    });
+    this.$store.dispatch(articleActionTypes.getArticle, {
+      slug: this.$route.params.slug
+    })
   },
-};
+  methods: {
+    deleteArticle() {
+      this.$store
+        .dispatch(articleActionTypes.deleteArticle, {
+          slug: this.$route.params.slug
+        })
+        .then(() => {
+          this.$router.push({name: 'globalFeed'})
+        })
+    }
+  }
+}
 </script>

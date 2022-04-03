@@ -1,22 +1,26 @@
 import axios from '@/api/axios'
 
-const register = credential =>{
-    return axios.post('/users', {user:credential})
+const register = credentials => {
+  return axios.post('/users', {user: credentials})
 }
 
-const login = credential =>{
-    return axios.post('/users/login', {user:credential})
+const login = credentials => {
+  return axios.post('/users/login', {user: credentials})
 }
 
-const gerCurrentUser = () =>{
-    return axios.get('/user')
+const getCurrentUser = () => {
+  return axios.get('/user')
 }
 
-export default{
-    register,
-    login,
-    gerCurrentUser
+const updateCurrentUser = currentUserInput => {
+  return axios
+    .put('/user', {user: currentUserInput})
+    .then(response => response.data.user)
 }
 
-
-//sdwdsadxxaaw11111@dasdad.asdad 1234567890
+export default {
+  register,
+  login,
+  getCurrentUser,
+  updateCurrentUser
+}

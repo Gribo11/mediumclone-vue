@@ -3,9 +3,9 @@
     <ul class="nav nav-pills outline-active">
       <li class="nav-item" v-if="isLoggedIn">
         <router-link
-          :to="{ name: 'yourFeed' }"
+          :to="{name: 'yourFeed'}"
           class="nav-link"
-          :class="{ active: routeName === 'yourFeed' }"
+          :class="{active: routeName === 'yourFeed'}"
         >
           Your feed
         </router-link>
@@ -13,9 +13,9 @@
 
       <li class="nav-item">
         <router-link
-          :to="{ name: 'globalFeed' }"
+          :to="{name: 'globalFeed'}"
           class="nav-link"
-          :class="{ active: routeName === 'globalFeed' }"
+          :class="{active: routeName === 'globalFeed'}"
         >
           Global feed
         </router-link>
@@ -23,9 +23,9 @@
 
       <li class="nav-item" v-if="tagName">
         <router-link
-          :to="{ name: 'tag' }"
+          :to="{name: 'tag'}"
           class="nav-link"
-          :class="{ active: routeName === 'tag' }"
+          :class="{active: routeName === 'tag'}"
         >
           <i class="ion-pound" />
           {{ tagName }}
@@ -36,24 +36,25 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { gettersType } from "@/store/modules/auth";
+import {mapGetters} from 'vuex'
+
+import {getterTypes} from '@/store/modules/auth'
 
 export default {
-  name: "McvFeedToggler",
+  name: 'McvFeedToggler',
   props: {
     tagName: {
       type: String,
-      required: false,
-    },
+      required: false
+    }
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: gettersType.isLoggedIn,
+      isLoggedIn: getterTypes.isLoggedIn
     }),
     routeName() {
-      return this.$route.name;
-    },
-  },
-};
+      return this.$route.name
+    }
+  }
+}
 </script>

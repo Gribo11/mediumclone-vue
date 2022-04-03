@@ -5,14 +5,14 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign in</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'register' }">
-              Need an account?
+            <router-link :to="{name: 'register'}">
+              Have an account?
             </router-link>
           </p>
-         <mcv-validation-errors
-         v-if="validationErrors"
-         :validation-errors='validationErrors'
-         />
+          <mcv-validation-errors
+            v-if="validationErrors"
+            :validation-errors="validationErrors"
+          ></mcv-validation-errors>
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
@@ -30,10 +30,11 @@
                 v-model="password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right"
-            :disabled='isSubmitting'
+            <button
+              class="btn btn-lg btn-primary pull-xs-right"
+              :disabled="isSubmitting"
             >
-              Sign Up
+              Sign In
             </button>
           </form>
         </div>
@@ -45,37 +46,34 @@
 <script>
 import {mapState} from 'vuex'
 
-import McvValidationErrors from '@/components/ValidationErrors'
-import {actionType} from '@/store/modules/auth'
+import McvValidationErrors from '@/components/ValidationErrors.vue'
+import {actionTypes} from '@/store/modules/auth'
 
 export default {
-  name: 'McvRegister',
-
-  components:{
+  name: 'McvLogin',
+  components: {
     McvValidationErrors
   },
-
-  data(){
+  data() {
     return {
-      email:'',
-      password:'',
+      email: '',
+      password: ''
     }
   },
-  
-  computed:{
-      ...mapState({
-        isSubmitting: state => state.auth.isSubmitting,
-        validationErrors:state => state.auth.validatonErrors
-      })
+  computed: {
+    ...mapState({
+      isSubmitting: state => state.auth.isSubmitting,
+      validationErrors: state => state.auth.validationErrors
+    })
   },
-
-  methods:{
-    onSubmit(){
-        this.$store.dispatch(actionType.login, {
-          email:this.email,
-          password:this.password,
+  methods: {
+    onSubmit() {
+      this.$store
+        .dispatch(actionTypes.login, {
+          email: this.email,
+          password: this.password
         })
-        .then(() =>{
+        .then(() => {
           this.$router.push({name: 'globalFeed'})
         })
     }
