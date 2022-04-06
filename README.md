@@ -23,4 +23,4 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-//sdwdsadxxaaw11111@dasdad.asdad 1234567890
+
